@@ -17,4 +17,8 @@ class MainActivity : AppCompatActivity() {
             insets
         }
     }
+
+    fun helloworld() : String {
+        return "Hello world"
+    }
 }
