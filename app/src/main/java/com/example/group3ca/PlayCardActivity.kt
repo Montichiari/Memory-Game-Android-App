@@ -1,6 +1,5 @@
 package com.example.group3ca
 
-// For displaying advertisement images-------------
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,9 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-
-//-------------------------------------------------
-
 
 
 class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
