@@ -10,6 +10,11 @@ android {
     namespace = "com.example.group3ca"
     compileSdk = 35
 
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.example.group3ca"
         minSdk = 29
