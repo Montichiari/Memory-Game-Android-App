@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun helloworld() : String {
-        return "Hello world"
-    }
+
+
 }
