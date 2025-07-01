@@ -1,15 +1,25 @@
 package com.example.group3ca
 
+// For displaying advertisement images-------------
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+
+//-------------------------------------------------
+
+
 
 class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
 
+    //----------------------------------------------------------
+    // For playing cards----------------------------------------
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: CardAdapter
 
@@ -40,11 +50,32 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
 
     // Shouldn't be allowed to click while it is "busy"
     private var isBusy = false
+    //----------------------------------------------------------
+
+
+    //----------------------------------------------------------
+    // For displaying advertisement images----------------------
+
+    lateinit var imageView: ImageView
+
+    // List of image URLs for advertisement images
+    private val imageUrls = listOf(
+        "http://10.0.2.2:5167/images/milo.jpg",
+        "http://10.0.2.2:5167/images/coke.jpg",
+        "http://10.0.2.2:5167/images/mcdonalds.jpg",
+        "http://10.0.2.2:5167/images/donki.jpg"
+    )
+    private var currentImageIndex = 0 // Index to track which image to display
+    private val handler2 = Handler(Looper.getMainLooper()) // Handler to manage repeating tasks
+    //-----------------------------------------------------------
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playcard)
 
+        //----------------------------------------------------------
+        // For playing cards----------------------------------------
         // Duplicate each image
         for (id in drawableImageIds) {
             cardImages.add(id)
@@ -82,9 +113,42 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
             }
         }
         handler.post(timerRunnable)  // start timer
+        //----------------------------------------------------------
+
+
+        //----------------------------------------------------------
+        // For displaying advertisement images----------------------
+        imageView = findViewById(R.id.imageView)
+
+        // Start displaying images with a 30-second interval
+        startImageCycle()
+
+        handler2.postDelayed(object : Runnable {
+            override fun run() {
+                // Get the next image URL
+                val imageUrl = imageUrls[currentImageIndex]
+
+                // Use Glide to load and display the image
+                Glide.with(this@PlayCardActivity)
+                    .load(imageUrl) // URL of the ad image
+                    .into(imageView) // Set image in ImageView
+
+                imageView.visibility = View.VISIBLE
+
+                // Move to the next image in the list (loop back to the start if at the end)
+                currentImageIndex = (currentImageIndex + 1) % imageUrls.size
+
+                // Schedule the next image change
+                handler2.postDelayed(this, 30000) // Change image every 30 seconds
+            }
+        }, 30000) // Start after 30 seconds
+
+        //---------------------------------------------------------------
 
     }
 
+    //---------------------------------------------------------------
+    // For playing cards---------------------------------------------
     override fun onCardClicked(position: Int) {
 
         // Cannot click if the card is faced up already
@@ -135,5 +199,26 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
             }
         }
     }
+    //---------------------------------------------------------------
+
+
+    //----------------------------------------------------------
+    // For displaying advertisement images----------------------
+
+    private fun startImageCycle() {
+        // Load the first image using Glide
+        displayNextImage()
+    }
+
+    private fun displayNextImage() {
+        // Get the URL of the next image
+        val imageUrl = imageUrls[currentImageIndex]
+
+        // Use Glide to download and display the image asynchronously
+        Glide.with(this)
+            .load(imageUrl) // URL of the image
+            .into(imageView) // Target ImageView
+    }
+    //--------------------------------------------------------------
 
 }

@@ -7,6 +7,20 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
+
+    <!-- ImageView for displaying the ad image at the bottom of the screen -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
     <!-- Match Counter (Top Left) -->
     <TextView
         android:id="@+id/matchCounterText"
@@ -42,5 +56,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="100dp" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
