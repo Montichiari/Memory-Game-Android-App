@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         //enableEdgeToEdge()
         //setContentView(R.layout.activity_main)
 
-        val intent = Intent(this, PlayCardActivity::class.java)
+        val intent = Intent(this, FetchActivity::class.java)
         startActivity(intent)
         finish() // optional: close MainActivity
 

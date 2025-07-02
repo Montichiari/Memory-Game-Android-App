@@ -17,7 +17,7 @@
         android:layout_marginBottom="16dp">
 
         <EditText
-            android:id="@+id/editUrl"
+            android:id="@+id/urlInput"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -46,32 +46,55 @@
 <!--        android:scaleType="fitCenter" />-->
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/imagesRecyclerView"
+        android:id="@+id/imageRecycler"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_height="wrap_content"
         android:padding="8dp"
-        app:layout_constraintTop_toBottomOf="@id/fetchMain"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         />
 
-    <ProgressBar
-        android:id="@+id/determinateBar"
-        style="@android:style/Widget.ProgressBar.Horizontal"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:padding="16dp"
-        android:progress="25"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/progressText"
+        <ProgressBar
+            android:id="@+id/progBar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:padding="16dp"
+            android:visibility="gone"
+            android:progress="0"/>
+
+        <TextView
+            android:id="@+id/progressText"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Downloading 0 of 20 images..."
+            android:visibility="gone"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/beginText"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Enter a URL and get images to begin."
+            android:gravity="center"
+            />
+
+        </LinearLayout>
+
+    <Button
+        android:id="@+id/startGameButton"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="Downloading 0 of 20 images..."
-        android:gravity="center"
-        />
+        android:layout_height="wrap_content"
+        android:text="Start Game"
+        android:enabled="false"
+        android:visibility="gone"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="20dp"/>
 
 
 
