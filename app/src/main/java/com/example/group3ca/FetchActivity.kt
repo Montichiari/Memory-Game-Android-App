@@ -38,7 +38,7 @@ class FetchActivity : AppCompatActivity() {
             binding.startGameButton.isEnabled = selectedList.size == 6
         }
 
-        binding.imageRecycler.layoutManager = GridLayoutManager(this, 5)
+        binding.imageRecycler.layoutManager = GridLayoutManager(this, 4)
         binding.imageRecycler.adapter = adapter
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.fetchMain)) { v, insets ->
@@ -47,8 +47,7 @@ class FetchActivity : AppCompatActivity() {
             insets
         }
 
-
-
+        // Initialise
         initFetch()
     }
 
@@ -64,8 +63,6 @@ class FetchActivity : AppCompatActivity() {
                 if (url.isNotEmpty()) {
                     startImageDownload(url)
                 }
-
-
 
             }
 
@@ -88,15 +85,19 @@ class FetchActivity : AppCompatActivity() {
 
         bgThread?.interrupt()
 
+        // Variable can be adjusted to change how many images to download
         val maxImages = 20
 
         bgThread = Thread {
           try {
+
+              // Retrieve the DOM from the URL
               val page = Jsoup.connect(url)
                   .userAgent("Mozilla/5.0")
                   .timeout(10_000)
                   .get()
 
+              // Finds elements on the DOM that have img tags, with src OR data-cfsrc (that stocksnap uses) attribute
               val imageUrls = page.select("img[src], img[data-cfsrc]")
                   .mapNotNull {
                       when {
@@ -105,7 +106,7 @@ class FetchActivity : AppCompatActivity() {
                           else -> null
                       }
                   }
-                  .filter { it.isNotBlank() && !it.endsWith(".svg", ignoreCase = true) }
+                  .filter { it.isNotBlank() && !it.endsWith(".svg", ignoreCase = true) } // Filter out .svg because we don't want that
                   .take(maxImages)
 
               runOnUiThread {
@@ -123,14 +124,17 @@ class FetchActivity : AppCompatActivity() {
               imageUrls.forEachIndexed { index, imgUrl ->
                   if (Thread.interrupted()) return@Thread
 
-                  // Simulate downloading (or actually download if needed)
                   downloaded.add(imgUrl)
 
+                  // Updates progress bar
                   runOnUiThread {
                       binding.progBar.progress = index + 1
                       binding.progressText.text =
                           "Downloading ${index + 1} of ${imageUrls.size} images..."
                   }
+
+                  Log.d("Log downloaded items", downloaded.toString())
+                  // Intentionally adding delay so that we can see the download progress
                   Thread.sleep(300)
 
                   runOnUiThread {
@@ -150,33 +154,6 @@ class FetchActivity : AppCompatActivity() {
       }
         bgThread?.start()
     }
-
-    // Function to download images to file
-    fun downloadToFile(url: String, file: File)
-    {
-        URL(url).openStream().use { input ->
-            file.outputStream().use { output ->
-                input.copyTo(output)
-            }
-        }
-    }
-
-    // Function to make a new file
-    fun makeFile(fname: String): File
-    {
-        val dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File(dir, fname)
-    }
-
-    // Function to update the view
-//    fun updateImageView(file: File)
-//    {
-//        val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-//        binding.apply{
-//            imageView.setImageBitmap(bitmap)
-//        }
-//    }
-
 
 
 }
