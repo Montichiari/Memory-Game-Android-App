@@ -5,9 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 class CardAdapter(
-    private val cardImages: List<Int>,
+    private val cardImageUrls: List<String>,
     private val faceUp: List<Boolean>,
     private val clickListener: OnCardClickListener
 ) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
@@ -26,12 +27,15 @@ class CardAdapter(
         return CardViewHolder(view)
     }
 
-    override fun getItemCount(): Int = cardImages.size
+    override fun getItemCount(): Int = cardImageUrls.size
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         if (faceUp[position]) {
             // Show the card
-            holder.imageView.setImageResource(cardImages[position])
+            Glide.with(holder.imageView.context)
+                .load(cardImageUrls[position])
+                .into(holder.imageView)
+
         } else {
             // Show the back
             holder.imageView.setImageResource(R.drawable.card_back)

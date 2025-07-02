@@ -30,16 +30,17 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var timerRunnable: Runnable
 
-    private val drawableImageIds = listOf(
-        R.drawable.image1, R.drawable.image2, R.drawable.image3,
-        R.drawable.image4, R.drawable.image5, R.drawable.image6
-    )
+//    private val drawableImageIds = listOf(
+//        R.drawable.image1, R.drawable.image2, R.drawable.image3,
+//        R.drawable.image4, R.drawable.image5, R.drawable.image6
+//    )
+
 
     // List of images
-    private val cardImages = mutableListOf<Int>()
+    private lateinit var cardImages: List<String>
 
     // Whether a card is faced up or not
-    private val faceUp = MutableList(12) { false }
+    private lateinit var faceUp: MutableList<Boolean>
 
     // Keep track of the position of the first card
     private var firstCardIndex: Int? = null
@@ -73,13 +74,17 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
         //----------------------------------------------------------
         // For playing cards----------------------------------------
         // Duplicate each image
-        for (id in drawableImageIds) {
-            cardImages.add(id)
-            cardImages.add(id)
-        }
+//        for (id in drawableImageIds) {
+//            cardImages.add(id)
+//            cardImages.add(id)
+//        }
+//
+//        // Shuffle the list
+//        cardImages.shuffle()
 
-        // Shuffle the list
-        cardImages.shuffle()
+        val selectedImages = intent.getStringArrayListExtra("selectedImages") ?: arrayListOf()
+        cardImages = (selectedImages + selectedImages).shuffled()
+        faceUp = MutableList(cardImages.size) { false }
 
         // Arrange the cards in a grid with 3 columns
         recyclerView = findViewById(R.id.cardsRecyclerView)
