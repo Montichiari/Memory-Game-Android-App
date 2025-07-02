@@ -46,7 +46,8 @@ dependencies {
 
     // Glide for image loading
     implementation("com.github.bumptech.glide:glide:4.12.0")
-    kapt("com.github.bumptech.glide:compiler:4.12.0")  // Kapt for annotation processing with Kotlin
+    //comment out the kapt for the glide to be not in red underline in the PlayActivity.kt
+    //kapt("com.github.bumptech.glide:compiler:4.12.0")  // Kapt for annotation processing with Kotlin
 
 
     testImplementation(libs.junit)

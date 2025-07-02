@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 
+
 class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
 
     //----------------------------------------------------------
