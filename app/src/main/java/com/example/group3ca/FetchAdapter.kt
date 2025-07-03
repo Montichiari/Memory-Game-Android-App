@@ -8,11 +8,11 @@ import com.bumptech.glide.Glide
 import android.widget.Toast
 
 
-class ImagesAdapter(
+class FetchAdapter(
 
     private val maxSelectable: Int = 6,
     private val onSelectionChanged: (List<String>) -> Unit
-    ) : RecyclerView.Adapter<ImagesAdapter.ImageViewHolder>() {
+    ) : RecyclerView.Adapter<FetchAdapter.ImageViewHolder>() {
 
         private val imageUrls = mutableListOf<String>()
         private val selected = mutableSetOf<String>()

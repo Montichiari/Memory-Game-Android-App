@@ -142,7 +142,7 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
                 // Schedule the next image change
                 handler2.postDelayed(this, 30000) // Change image every 30 seconds
             }
-        }, 30000) // Start after 30 seconds
+        }, 0) // Start after 30 seconds
 
         //---------------------------------------------------------------
 

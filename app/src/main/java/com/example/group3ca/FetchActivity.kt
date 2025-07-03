@@ -1,9 +1,7 @@
 package com.example.group3ca
 
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -13,18 +11,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.group3ca.databinding.ActivityFetchBinding
-import com.example.group3ca.databinding.ActivityMainBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
-import java.io.File
-import java.net.URL
 
 class FetchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFetchBinding
     private var bgThread: Thread? = null
-    private lateinit var adapter: ImagesAdapter
+    private lateinit var adapter: FetchAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +27,7 @@ class FetchActivity : AppCompatActivity() {
         binding = ActivityFetchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapter = ImagesAdapter { selectedList ->
+        adapter = FetchAdapter { selectedList ->
             binding.startGameButton.isEnabled = selectedList.size == 6
         }
 
