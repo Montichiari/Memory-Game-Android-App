@@ -10,6 +10,8 @@ import com.bumptech.glide.module.AppGlideModule
 import okhttp3.OkHttpClient
 import java.io.InputStream
 
+// This config file is to configure Glide requests with user-agent Mozilla, to avoid 403.
+
 @GlideModule
 class GlideConfig : AppGlideModule() {
     override fun registerComponents(

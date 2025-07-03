@@ -80,7 +80,7 @@ class FetchActivity : AppCompatActivity() {
 
     }
 
-    // Function to download images to file
+    // Function to scrape the URL page with Jsoup, then pass to adapter, and update UI
     fun startImageDownload(url: String) {
 
         bgThread?.interrupt()
@@ -114,10 +114,10 @@ class FetchActivity : AppCompatActivity() {
 
                   binding.progBar.visibility = View.VISIBLE
                   binding.progBar.max = imageUrls.size
-                  binding.progBar.progress = 0
+                  binding.progBar.progress = 0 // Reset on each fetch
 
                   binding.progressText.visibility = View.VISIBLE
-                  binding.progressText.text = "Downloading 0 of ${imageUrls.size} images..."
+                  binding.progressText.text = "Downloading 0 of ${imageUrls.size} images..." // Populate the max dynamically
               }
 
               val downloaded = mutableListOf<String>()
