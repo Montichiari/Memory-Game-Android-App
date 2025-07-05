@@ -84,7 +84,7 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
         bgmPlayer = MediaPlayer.create(this, R.raw.background)
         bgmPlayer?.isLooping = true  // Loop the music
         // Set volume: (leftVolume, rightVolume), values between 0.0 and 1.0
-        bgmPlayer?.setVolume(0.2f, 0.2f)  // softer background music
+        bgmPlayer?.setVolume(0.4f, 0.4f)  // softer background music
         bgmPlayer?.start()
 
 
