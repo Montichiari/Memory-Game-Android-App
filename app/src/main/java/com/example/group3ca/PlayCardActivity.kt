@@ -177,7 +177,10 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
                     // All pairs matched
                     // Stop the timer
                     handler.removeCallbacks(timerRunnable)
+
                     // Go to leaderboard?
+
+
                 }
 
                 // Reset firstCardIndex to null and allow other cards to be clicked
