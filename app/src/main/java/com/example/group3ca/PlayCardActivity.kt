@@ -67,7 +67,9 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
         "http://10.0.2.2:5167/images/milo.jpg",
         "http://10.0.2.2:5167/images/coke.jpg",
         "http://10.0.2.2:5167/images/mcdonalds.jpg",
-        "http://10.0.2.2:5167/images/donki.jpg"
+        "http://10.0.2.2:5167/images/kireikirei.jpg",
+        "http://10.0.2.2:5167/images/colgate.jpg",
+        "http://10.0.2.2:5167/images/pantene.jpg"
     )
     private var currentImageIndex = 0 // Index to track which image to display
     private val handler2 = Handler(Looper.getMainLooper()) // Handler to manage repeating tasks
