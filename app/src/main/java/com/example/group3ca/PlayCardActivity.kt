@@ -2,6 +2,7 @@ package com.example.group3ca
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -48,6 +49,14 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
 //        R.drawable.image4, R.drawable.image5, R.drawable.image6
 //    )
 
+    // For sound effects
+    private var matchPlayer: MediaPlayer? = null
+    private var noMatchPlayer: MediaPlayer? = null
+    private var completePlayer: MediaPlayer? = null
+    private var bgmPlayer: MediaPlayer? = null
+
+
+
 
     // List of images
     private lateinit var cardImages: List<String>
@@ -84,6 +93,14 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playcard)
+
+        // Background music
+        bgmPlayer = MediaPlayer.create(this, R.raw.background)
+        bgmPlayer?.isLooping = true  // Loop the music
+        // Set volume: (leftVolume, rightVolume), values between 0.0 and 1.0
+        bgmPlayer?.setVolume(0.4f, 0.4f)  // softer background music
+        bgmPlayer?.start()
+
 
         //----------------------------------------------------------
         // For playing cards----------------------------------------
@@ -193,6 +210,9 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
 
             if (cardImages[firstCardIndex!!] == cardImages[secondCardIndex]) {
                 // Match!
+                matchPlayer = MediaPlayer.create(this, R.raw.match)
+                matchPlayer?.start()
+
                 currentMatches += 1
                 matchCounterText.text = "Matches: $currentMatches/$totalMatches"
 
@@ -232,6 +252,14 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
                     finish()
 
 
+                    // Game complete
+                    bgmPlayer?.stop()
+                    bgmPlayer?.release()
+                    bgmPlayer = null
+                    completePlayer = MediaPlayer.create(this, R.raw.win)
+                    completePlayer?.setVolume(0.4f, 0.4f)
+                    completePlayer?.start()
+                    // Go to leaderboard?
                 }
 
                 // Reset firstCardIndex to null and allow other cards to be clicked
@@ -240,6 +268,8 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
 
             } else {
                 // Not match
+                noMatchPlayer = MediaPlayer.create(this, R.raw.no_match)
+                noMatchPlayer?.start()
                 // Flip back the cards after 1 second
                 Handler(Looper.getMainLooper()).postDelayed({
                     faceUp[firstCardIndex!!] = false
@@ -275,5 +305,17 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
             .into(imageView) // Target ImageView
     }
     //--------------------------------------------------------------
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        matchPlayer?.release()
+        noMatchPlayer?.release()
+        completePlayer?.release()
+        bgmPlayer?.release()
+        bgmPlayer = null
+    }
+
+
 
 }
