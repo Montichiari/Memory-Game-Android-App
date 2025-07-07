@@ -36,8 +36,8 @@
         android:id="@+id/btnANewStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="bottom"
-        android:text="Start new game"
-        />
+        android:gravity="center"
+        android:textAlignment="center"
+        android:text="Start New Game"/>
 
 </LinearLayout>

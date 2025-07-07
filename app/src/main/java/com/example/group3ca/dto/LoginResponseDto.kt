@@ -1,8 +1,8 @@
 package com.example.group3ca.dto
 
 data class LoginResponseDto(
-    val Id: String,
-    val Username: String,
-    val Tier: String
+    val id: String,
+    val username: String,
+    val tier: String
 
 )

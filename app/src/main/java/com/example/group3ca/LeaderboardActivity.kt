@@ -24,7 +24,7 @@ class LeaderboardActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLeaderboardBinding
     private lateinit var adapter: LeaderboardAdapter
-    private lateinit var leaderboardList: List<LeaderboardEntry>
+    private var leaderboardList: List<LeaderboardEntry> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +32,6 @@ class LeaderboardActivity : AppCompatActivity() {
 
         binding = ActivityLeaderboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        adapter = LeaderboardAdapter(this, leaderboardList)
-        binding.listLeaderboard.adapter = adapter
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.leaderboard)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -49,9 +46,9 @@ class LeaderboardActivity : AppCompatActivity() {
         val minutes = (playerTiming % 3600) / 60
         val seconds = playerTiming % 60
 
-        val timeFormatted = String.format("Time: %02d:%02d:%02d", hours, minutes, seconds)
+        val timeFormatted = String.format("Your time: %02d:%02d:%02d", hours, minutes, seconds)
 
-        binding.textYourTiming.text = "Your timing: ${timeFormatted}"
+        binding.textYourTiming.text = "${timeFormatted}"
 
         // Call for leaderboard list
         ApiClient.instance.getLeaderboard().enqueue(object : Callback<List<LeaderboardEntry>> {
@@ -62,6 +59,8 @@ class LeaderboardActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
 
                     leaderboardList = response.body() ?: emptyList()
+                    adapter = LeaderboardAdapter(this@LeaderboardActivity, leaderboardList)
+                    binding.listLeaderboard.adapter = adapter
 
                 } else {
                     Toast.makeText(this@LeaderboardActivity, "Something went wrong", Toast.LENGTH_SHORT).show()

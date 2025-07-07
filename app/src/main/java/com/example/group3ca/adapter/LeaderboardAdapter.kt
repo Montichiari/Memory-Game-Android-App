@@ -32,15 +32,15 @@ class LeaderboardAdapter(
         val entry = entries[position]
 
         rank.text = "${position + 1}"
-        username.text = entry.Username
+        username.text = entry.username
 
-        var countSeconds = entry.Timing
+        var countSeconds = entry.timing
 
         val hours = countSeconds / 3600
         val minutes = (countSeconds % 3600) / 60
         val seconds = countSeconds % 60
 
-        val timeFormatted = String.format("Time: %02d:%02d:%02d", hours, minutes, seconds)
+        val timeFormatted = String.format("%02d:%02d:%02d", hours, minutes, seconds)
 
         timing.text = "${timeFormatted}"
 

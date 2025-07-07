@@ -83,7 +83,9 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
         "http://10.0.2.2:5167/images/milo.jpg",
         "http://10.0.2.2:5167/images/coke.jpg",
         "http://10.0.2.2:5167/images/mcdonalds.jpg",
-        "http://10.0.2.2:5167/images/donki.jpg"
+        "http://10.0.2.2:5167/images/donki.jpg",
+        "http://10.0.2.2:5167/images/colgate.jpg",
+        "http://10.0.2.2:5167/images/pantene.jpg"
     )
     private var currentImageIndex = 0 // Index to track which image to display
     private val handler2 = Handler(Looper.getMainLooper()) // Handler to manage repeating tasks
@@ -155,7 +157,7 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
 
 
         // Get the tier from shared preferences to determine whether to play ads or not
-        val Tier = sharedPrefs.getString("Tier", "free")
+        val Tier = sharedPrefs.getString("Tier", "nothing")
 
         // Start displaying images with a 30-second interval
 
@@ -236,6 +238,11 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
                             if (response.isSuccessful) {
                                 Toast.makeText(this@PlayCardActivity, "Game saved!", Toast.LENGTH_SHORT).show()
 
+                                // Intent to LeaderboardActivity upon successful game save
+                                val intent = Intent(this@PlayCardActivity, LeaderboardActivity::class.java)
+                                intent.putExtra("Timing", countSeconds)
+                                startActivity(intent)
+
                             } else {
                                 Toast.makeText(this@PlayCardActivity, "Something went wrong", Toast.LENGTH_SHORT).show()
                             }
@@ -246,10 +253,6 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
                         }
                     })
 
-                    // Intent to LeaderboardActivity upon successful game save
-                    startActivity(Intent(this@PlayCardActivity, LeaderboardActivity::class.java))
-                    intent.putExtra("Timing", countSeconds)
-                    finish()
 
 
                     // Game complete
@@ -258,8 +261,7 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
                     bgmPlayer = null
                     completePlayer = MediaPlayer.create(this, R.raw.win)
                     completePlayer?.setVolume(0.4f, 0.4f)
-                    completePlayer?.start()
-                    // Go to leaderboard?
+
                 }
 
                 // Reset firstCardIndex to null and allow other cards to be clicked

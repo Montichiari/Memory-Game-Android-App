@@ -65,8 +65,8 @@ class LoginActivity : AppCompatActivity() {
 
                             // Save username and tier to shared preferences
                             sharedPrefs = getSharedPreferences("UserSession", MODE_PRIVATE)
-                            sharedPrefs.edit().putString("UserId", user?.Id).apply()
-                            sharedPrefs.edit().putString("Tier", user?.Tier).apply()
+                            sharedPrefs.edit().putString("UserId", user?.id).apply()
+                            sharedPrefs.edit().putString("Tier", user?.tier).apply()
 
                             // Intent to FetchActivity upon successful login
                             startActivity(Intent(this@LoginActivity, FetchActivity::class.java))
