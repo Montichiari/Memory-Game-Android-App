@@ -1,4 +1,4 @@
-package com.example.group3ca
+package com.example.group3ca.config
 
 import android.content.Context
 import com.bumptech.glide.Glide

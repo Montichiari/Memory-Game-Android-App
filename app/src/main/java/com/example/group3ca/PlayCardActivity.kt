@@ -1,15 +1,28 @@
 package com.example.group3ca
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.group3ca.LoginActivity
+import com.example.group3ca.adapter.CardAdapter
+import com.example.group3ca.dto.GameRequestDto
+import com.example.group3ca.dto.LoginRequestDto
+import com.example.group3ca.dto.LoginResponseDto
+import com.example.group3ca.service.ApiClient
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
@@ -54,6 +67,7 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
     // For displaying advertisement images----------------------
 
     lateinit var imageView: ImageView
+    private lateinit var sharedPrefs: SharedPreferences
 
     // List of image URLs for advertisement images
     private val imageUrls = listOf(
@@ -81,6 +95,7 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
 //
 //        // Shuffle the list
 //        cardImages.shuffle()
+        sharedPrefs = getSharedPreferences("UserSession", MODE_PRIVATE)
 
         val selectedImages = intent.getStringArrayListExtra("selectedImages") ?: arrayListOf()
         cardImages = (selectedImages + selectedImages).shuffled()
@@ -121,28 +136,36 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
         // For displaying advertisement images----------------------
         imageView = findViewById(R.id.imageView)
 
+
+        // Get the tier from shared preferences to determine whether to play ads or not
+        val Tier = sharedPrefs.getString("Tier", "free")
+
         // Start displaying images with a 30-second interval
-        startImageCycle()
 
-        handler2.postDelayed(object : Runnable {
-            override fun run() {
-                // Get the next image URL
-                val imageUrl = imageUrls[currentImageIndex]
+        if (Tier == "free") {
+            startImageCycle()
 
-                // Use Glide to load and display the image
-                Glide.with(this@PlayCardActivity)
-                    .load(imageUrl) // URL of the ad image
-                    .into(imageView) // Set image in ImageView
+            handler2.postDelayed(object : Runnable {
+                override fun run() {
+                    // Get the next image URL
+                    val imageUrl = imageUrls[currentImageIndex]
 
-                imageView.visibility = View.VISIBLE
+                    // Use Glide to load and display the image
+                    Glide.with(this@PlayCardActivity)
+                        .load(imageUrl) // URL of the ad image
+                        .into(imageView) // Set image in ImageView
 
-                // Move to the next image in the list (loop back to the start if at the end)
-                currentImageIndex = (currentImageIndex + 1) % imageUrls.size
+                    imageView.visibility = View.VISIBLE
 
-                // Schedule the next image change
-                handler2.postDelayed(this, 30000) // Change image every 30 seconds
-            }
-        }, 0) // Start after 30 seconds
+                    // Move to the next image in the list (loop back to the start if at the end)
+                    currentImageIndex = (currentImageIndex + 1) % imageUrls.size
+
+                    // Schedule the next image change
+                    handler2.postDelayed(this, 30000) // Change image every 30 seconds
+                }
+            }, 0) // Start immediately
+        }
+
 
         //---------------------------------------------------------------
 
@@ -178,7 +201,35 @@ class PlayCardActivity : AppCompatActivity(), CardAdapter.OnCardClickListener {
                     // Stop the timer
                     handler.removeCallbacks(timerRunnable)
 
-                    // Go to leaderboard?
+                    // Post request to leaderboard
+                    val UserId = sharedPrefs.getString("UserId", "AAA") ?: "AAA"
+                    val Timing = countSeconds
+
+                    val request = GameRequestDto(UserId, Timing)
+
+                    // Use created ApiClient to call createGame function that calls corresponding backend createGame
+                    ApiClient.instance.createGame(request).enqueue(object : Callback<ResponseBody> {
+                        override fun onResponse(
+                            call: Call<ResponseBody>,
+                            response: Response<ResponseBody>
+                        ) {
+                            if (response.isSuccessful) {
+                                Toast.makeText(this@PlayCardActivity, "Game saved!", Toast.LENGTH_SHORT).show()
+
+                            } else {
+                                Toast.makeText(this@PlayCardActivity, "Something went wrong", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            Toast.makeText(this@PlayCardActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+
+                    // Intent to LeaderboardActivity upon successful game save
+                    startActivity(Intent(this@PlayCardActivity, LeaderboardActivity::class.java))
+                    intent.putExtra("Timing", countSeconds)
+                    finish()
 
 
                 }

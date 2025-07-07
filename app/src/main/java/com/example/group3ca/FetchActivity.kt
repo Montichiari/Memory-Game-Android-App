@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.group3ca.adapter.FetchAdapter
 import com.example.group3ca.databinding.ActivityFetchBinding
 import org.jsoup.Jsoup
 

@@ -1,4 +1,4 @@
-package com.example.group3ca
+package com.example.group3ca.adapter
 
 import android.graphics.Color
 import android.view.ViewGroup
