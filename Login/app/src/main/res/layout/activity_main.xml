@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="32dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F4FF">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:text="Welcome Back"
+        android:textSize="28sp"
+        android:textColor="#1A237E"
+        android:textStyle="bold"
+        android:layout_marginBottom="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Username"
+        android:background="@drawable/rounded_edittext"
+        android:padding="12dp"
+        android:inputType="textPersonName"
+        android:layout_marginBottom="20dp"
+        android:textColor="#212121"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Password"
+        android:background="@drawable/rounded_edittext"
+        android:padding="12dp"
+        android:inputType="textPassword"
+        android:layout_marginBottom="32dp"
+        android:textColor="#212121"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Login"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:backgroundTint="#3949AB"
+        android:fontFamily="sans-serif-medium"
+        android:elevation="4dp"
+        android:stateListAnimator="@null"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/btn_rounded" />
+</LinearLayout>
