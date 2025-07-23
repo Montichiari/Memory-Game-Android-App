@@ -2,6 +2,8 @@
 
 A memory matching game built with Android (Kotlin) that connects to a backend API for user login, game tracking, and leaderboard functionality. Players can log in, play a card-matching game, and see how their completion time ranks against others.
 
+**Video demo** can be viewed here: https://drive.google.com/file/d/1Cz-9WIUH_F9szOldl9IxEBA8qJ__S7Tt/view?usp=drive_link
+
 ---
 
 ## 🎮 Features
